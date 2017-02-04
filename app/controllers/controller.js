@@ -22,8 +22,17 @@ module.exports = function(app) {
       preferences: req.body.preferences
       // etc.
 
-      // login info??
+    
     })
+    User.register(req.body.username, req.body.password, function(err, account) {
+        if (err) {
+            console.log(err);
+            return res.json(err);
+        }
+        passport.authenticate('local')(req, res, function () {
+            res.redirect('/');
+        });
+    });
   });
 
   // Get user info based on id
