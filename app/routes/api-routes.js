@@ -4,77 +4,41 @@
 
 // Dependencies
 // =============================================================
-var Book = require("../models/book.js");
+var Request = require("../models/request.js");
 
-
+var User = require("../models/user.js");
 // Routes
 // =============================================================
 module.exports = function(app) {
 
   // Get all books
   app.get("/api/all", function(req, res) {
-    Book.findAll({}).then(function(result){
-      return res.json(result);
-    })
+
   });
 
   // Get a specific book
   app.get("/api/:book", function(req, res) {
-    Book.findOne({
-        where: {
-          title: req.params.book
-        }
-    }).then(function(result) {  //sequelize is promise-based so .then() will work
-      return res.json(result);
-    })
+
   });
 
   // Get all books of a specific genre
   app.get("/api/genre/:genre", function(req, res) {
-    Book.findAll({
-        where: {
-          genre: req.params.genre
-        }
-    }).then(function(result) {
-      return res.json(result);
-    })
+
   });
 
   // Get all books from a specific author
   app.get("/api/author/:author", function(req, res) {
-    Book.findAll({
-        where: {
-          author: req.params.author
-        }
-    }).then(function(result) {
-      return res.json(result);
-    })
+
   });
 
   // Get all "long" books (books 300 pages or more)
   app.get("/api/books/long", function(req, res) {
-    Book.findAll({
-        where: {
-          page_numbers: {
-            $gte: 300,
-          }
-        }
-    }).then(function(result) {
-      return res.json(result);
-    })
+
   });
 
   // Get all "short" books (books 150 pages or less)
   app.get("/api/books/short", function(req, res) {
-    Book.findAll({
-        where: {
-          page_numbers: {
-            $lte: 150,
-          }
-        }
-    }).then(function(result) {
-      return res.json(result);
-    })
+
   });
 
   // Add a book
@@ -93,13 +57,7 @@ module.exports = function(app) {
 
   // Delete a book
   app.post("/api/delete", function(req, res) {
-    var reqId = req.body.id;
-
-    Book.destroy({
-      where:{
-        id: reqId
-      }
-    })
+    
   });
 
 };

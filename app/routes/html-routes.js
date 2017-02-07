@@ -5,7 +5,7 @@
 // Dependencies
 // =============================================================
 var path = require("path");
-
+var db = require("../models");
 
 // Routes
 // =============================================================
@@ -13,33 +13,27 @@ module.exports = function(app) {
 
   // Each of the below routes just handles the HTML page that the user gets sent to.
 
-  // index route loads view.html
+  // index route loads welcome.handlebars
   app.get("/", function(req, res) {
-    res.sendFile(path.join(__dirname, "../views/main.handlebars"));
+    res.render("welcome");
   });
 
-  // add route loads the add.html page,
-  // where users can enter new books to the db
-  app.get("/add", function(req, res) {
-    res.sendFile(path.join(__dirname, "../public/add.html"));
+
+  app.get("/confirm", function(req, res) {
+    res.render("confirm");
   });
 
-  // all route loads the all.html page,
-  // where all books in the db are displayed
-  app.get("/all", function(req, res) {
-    res.sendFile(path.join(__dirname, "../public/all.html"));
+  app.get("/findpeople", function(req, res) {
+    res.render("findpeople");
   });
 
-  // short route loads the short.html page,
-  // where short books in the db are displayed
-  app.get("/short", function(req, res) {
-    res.sendFile(path.join(__dirname, "../public/short.html"));
+  app.get("/friendsdata", function(req, res) {
+    db.User.findAll({
+      where: //pass in the parameters here for {{each user}}
+    }).then(function(allFriends){
+      res.render("friendsdata", user:allFriends);
+    })
   });
 
-  // long route loads the long.html page,
-  // where long books in the db are displayed
-  app.get("/long", function(req, res) {
-    res.sendFile(path.join(__dirname, "../public/long.html"));
-  });
 
 };
