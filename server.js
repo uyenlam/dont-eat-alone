@@ -7,6 +7,20 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 
+var passport = require('passport');
+var session = require('express-session');
+
+
+app.use(session({ secret: 'super-secret' }));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(User.createStrategy());
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 
 // Sets up the Express App
 // =============================================================
