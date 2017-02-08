@@ -13,6 +13,9 @@ module.exports = function(sequelize, DataTypes) {
     occupation:{
       type: DataTypes.STRING
     },
+    photoLink:{
+      type: DataTypes.STRING
+    },
     preferences: {
       // This will be multiple fields when we determine what prefs we want to ask of user
       type: DataTypes.STRING
