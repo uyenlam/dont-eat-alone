@@ -15,25 +15,25 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING
     },
     location: {
-      type: DataTypes.??? // Not sure the best way to go about this for sorting pursposes
+      type: DataTypes.STRING,// Not sure the best way to go about this for sorting pursposes
       allowNull: true
     },
-    // Passport login info
-    username: DataTypes.STRING,
-    hash: {
-        type: DataTypes.TEXT
-    },
-    salt: {
-        type: DataTypes.STRING
-    }
+    // // Passport login info
+    // username: DataTypes.STRING,
+    // hash: {
+    //     type: DataTypes.TEXT
+    // },
+    // salt: {
+    //     type: DataTypes.STRING
+    // }
 
   },
     {
       // We're saying that we want our User to have Posts
       classMethods: {
         associate: function(models) {
-          // Associating User with Posts
-          User.hasMany(models.Post, {
+          // Associating User with Request
+          User.hasMany(models.Request, {
             // Not sure what we want for deletions, low priority (TY)
             onDelete: "cascade"
           });
@@ -42,11 +42,11 @@ module.exports = function(sequelize, DataTypes) {
     }
   );
 
-  passportLocalSequelize.attachToUser(User, {
-      usernameField: 'username',
-      hashField: 'hash',
-      saltField: 'salt'
-  });
+  // passportLocalSequelize.attachToUser(User, {
+  //     usernameField: 'username',
+  //     hashField: 'hash',
+  //     saltField: 'salt'
+  // });
 
   return User;
 };
