@@ -8,18 +8,11 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     age: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      // Only allowing 16yo+
-      min: 16
+      type: DataTypes.INTEGER
     },
     preferences: {
       // This will be multiple fields when we determine what prefs we want to ask of user
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        len: [1]
-      }
+      type: DataTypes.STRING
     },
     location: {
       type: DataTypes.??? // Not sure the best way to go about this for sorting pursposes
@@ -57,3 +50,5 @@ module.exports = function(sequelize, DataTypes) {
 
   return User;
 };
+
+// blah
