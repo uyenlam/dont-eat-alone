@@ -18,22 +18,21 @@ module.exports = function(app) {
     res.render("welcome");
   });
 
+  //
+  // app.get("/confirm", function(req, res) {
+  //   res.render("confirm");
+  // });
+  //
+  // app.get("/findpeople", function(req, res) {
+  //   res.render("findpeople");
+  // });
 
-  app.get("/confirm", function(req, res) {
-    res.render("confirm");
-  });
-
-  app.get("/findpeople", function(req, res) {
-    res.render("findpeople");
-  });
-
-  app.get("/friendsdata", function(req, res) {
-    db.User.findAll({
-      where: //pass in the parameters here for {{each user}}
-    }).then(function(allFriends){
-      res.render("friendsdata", user:allFriends);
-    })
-  });
+  // app.get("/friendsdata", function(req, res) {
+  //   db.User.findAll({ //pass in the parameters here for {{each user}}
+  //   }).then(function(allFriends){
+  //     res.render("friendsdata", {user:allFriends});
+  //   })
+  // });
 
 
 };
