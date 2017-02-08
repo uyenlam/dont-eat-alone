@@ -6,6 +6,8 @@
 // =============================================================
 var express = require("express");
 var bodyParser = require("body-parser");
+var methodOverride = require("method-override");
+var exphbs = require("express-handlebars");
 
 var passport = require('passport');
 var session = require('express-session');
@@ -36,10 +38,15 @@ app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 // Static directory
 app.use(express.static("app/public"));
 
+//
+// // Requiring our models for syncing
+var db = require("./app/models"); //requiring the whole model.
 
-// Requiring our models for syncing
-var db = require("./models"); //requiring the whole model.
+// Override with POST having ?_method=DELETE
+app.use(methodOverride("_method"));
 
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 
 // Routes
 // =============================================================
