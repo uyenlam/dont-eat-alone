@@ -10,6 +10,9 @@ module.exports = function(sequelize, DataTypes) {
     age: {
       type: DataTypes.INTEGER
     },
+    occupation:{
+      type: DataTypes.STRING
+    },
     preferences: {
       // This will be multiple fields when we determine what prefs we want to ask of user
       type: DataTypes.STRING

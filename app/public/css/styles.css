@@ -36,7 +36,11 @@ progress {
   display: none; }
 
 img {
-  border-style: none; }
+  border-style: none;
+  max-height: 100%;
+  /*object-fit is the magic line for cropped/centered profile photos*/
+  object-fit: cover; 
+}
 
 svg:not(:root) {
   overflow: hidden; }
@@ -55,12 +59,12 @@ p {
   margin: 0 0 20px 0; }
 
 a {
-  color: #2cc7c1;
+  color: white;
   text-decoration: underline;
   background-color: transparent;
   -webkit-text-decoration-skip: objects; }
   a:active, a:hover {
-    color: #2cc7c1;
+    color: white;
     outline-width: 0;
     text-decoration: none; }
 
@@ -531,7 +535,7 @@ html input[disabled] {
 
 @media only screen and (min-width: 980px) {
   .container, .container-full {
-    width: 960px; }
+    width: auto; }
   .container-l {
     width: 960px;
     padding-left: 15px;
@@ -547,7 +551,7 @@ html input[disabled] {
 
 @media only screen and (min-width: 1140px) {
   .container, .container-full {
-    width: 1120px; }
+    width: auto; }
   .container-xl {
     width: 1120px;
     padding-left: 15px;
@@ -2197,7 +2201,7 @@ input.field {
 
 .footer {
   color: #f3f3f3;
-  background: #525b64; }
+  background: #2B2B2B; }
 
 .footer-content-blocks {
   padding-left: 15px;
@@ -2226,8 +2230,8 @@ input.field {
   font-size: 0.75rem;
   line-height: 20px;
   line-height: 1.25rem;
-  color: #ccc;
-  background: #3f464c;
+  color: white;
+  background: #f26c39;
   padding-top: .8em;
   padding-bottom: .8em; }
   .footer-copyright p {

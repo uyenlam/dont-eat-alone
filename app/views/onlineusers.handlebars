@@ -1,3 +1,74 @@
+		<!-- ============ -->
+    <!-- body content -->
+    <!-- ============ -->
+    <div id="layout" class="pure-g container" style="margin: 0px">
+        <!-- THIS IS THE REQUEST MANAGEMENT PANEL ON THE LEFT SIDE OF THE PAGE -->
+        <div id="list" class="col-2-l pure-u-1">
+            <div class="email-item email-item-selected pure-g">
+                <div class="pure-u">
+                    <img width="64" height="64" class="email-avatar" src="http://cdn04.cdn.justjaredjr.com/wp-content/uploads/headlines/2016/01/watson-book.jpg">
+                </div>
+                <div class="pure-u-3-4">
+                    <h5 class="email-name">Emma Watson</h5>
+                    <h4 class="email-subject">Junior Developer</h4>
+                    <p class="email-desc">
+                        I love pizzas
+                    </p>
+                </div>
+            </div>
+
+						<!-- NEED TO JOIN INFORMATION IN THE REQUEST AND USER MODELS TO PROVIDE
+						DATA FOR THIS SECTION -->
+						{{#each request}}
+            <div class="email-item email-item-selected pure-g">
+                <div class="pure-u">
+                    <img width="64" height="64" class="email-avatar" src="{{this.photoLink}}">
+                </div>
+                <div class="pure-u-3-4">
+                    <h5 class="email-name">{{this.name}}</h5>
+                    <h4 class="email-subject">{{this.age}} + "|" + {{this.occupation}}</h4>
+                    <p class="email-desc">
+                        {{this.text}}
+                    </p>
+                </div>
+            </div>
+
+						{{/each}}
+        </div>
+
+        <!-- THIS IS THE LIST OF ALL USERS AT THE LOCATION ON THE RIGHT SIDE OF THE PAGE -->
+        <div id="main" class="col-9-l pure-u-1">
+            <!-- Dynamically generate user profiles  -->
+            <div class="speakers-block container" style="width:auto">
+                <div class="text-center pad-top-20">
+                    <h2 class="h2 uppercase">Great people at your location</h2>
+                    <p class="fs-4">
+                        Click on each profile for more information
+                    </p>
+                </div>
+
+								{{#each user}}
+                <ul class="event-speakers clear">
+                    <li class="col-6-m col-3-l">
+                        <div class="col-12-m no-float">
+                            <a class="event-speaker" href="#">
+                                <img class="block" src="{{this.photoLink}}">
+                            </a>
+                            <h3 class="uppercase fs-4 pad-top-20"><a class="event-speaker-name" href="#">{{this.name}}</a></h3>
+                            <p>
+                                {{this.occupation}}
+                            </p>
+                        </div>
+                    </li>
+                </ul>
+								{{/each}}
+								
+            </div>
+        </div>
+    </div>
+
+
+
 <!-- THIS IS THE REQUEST MANAGEMENT PANEL ON THE LEFT SIDE OF THE PAGE -->
 <div id="list" class="pure-u-1">
 		{{#each request}}
