@@ -40,7 +40,7 @@ app.use(express.static("app/public"));
 
 //
 // // Requiring our models for syncing
-// var db = require("./app/models"); //requiring the whole model.
+var db = require("./app/models"); //requiring the whole model.
 
 // Override with POST having ?_method=DELETE
 app.use(methodOverride("_method"));
