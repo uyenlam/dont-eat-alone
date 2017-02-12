@@ -1,75 +1,81 @@
-module.exports = function(sequelize, DataTypes) {
-  var User = sequelize.define("User", {
+
+var Sequelize = require("sequelize")
+
+module.exports = function(db){
+  return db.define("user",{
+    username: Sequelize.STRING,
+    password: Sequelize.STRING,
     name: {
-      type: DataTypes.STRING,
+      type: Sequelize.STRING,
       allowNull: false,
       validate: {
         len: [1]
       }
     },
     age: {
-      type: DataTypes.INTEGER
+      type: Sequelize.INTEGER
     },
     occupation:{
-      type: DataTypes.STRING
+      type: Sequelize.STRING
     },
     photoLink:{
-      type: DataTypes.STRING
+      type: Sequelize.STRING
     },
     vegetarian: {
       // This will be multiple fields when we determine what prefs we want to ask of user
-      type: DataTypes.BOOLEAN
+      type: Sequelize.BOOLEAN
     },
     differentDiet:{
-      type:DataTypes.BOOLEAN
+      type:Sequelize.BOOLEAN
     },
     favFood:{
-      type:DataTypes.STRING
+      type:Sequelize.STRING
     },
     leastFood:{
-      type:DataTypes.STRING
+      type:Sequelize.STRING
     },
     favDrink:{
-      type:DataTypes.STRING
+      type:Sequelize.STRING
     },
     leastDrink:{
-      type:DataTypes.STRING
+      type:Sequelize.STRING
     },
     introExtro:{
-      type:DataTypes.STRING
+      type:Sequelize.STRING
     },
     freeTime:{
-      type:DataTypes.STRING
+      type:Sequelize.STRING
     },
     payView:{
-      type:DataTypes.STRING
+      type:Sequelize.STRING
     },
     cookView:{
-      type:DataTypes.STRING
+      type:Sequelize.STRING
     },
     minAvail:{
-      type:DataTypes.NUMBER
+      type:Sequelize.NUMBER
     },
     locationLat: {
-      type: DataTypes.STRING,// Not sure the best way to go about this for sorting pursposes
+      type: Sequelize.STRING,// Not sure the best way to go about this for sorting pursposes
       allowNull: true
 
     },
+    // {
+    //   // We're saying that we want our User to have Posts
+    //   classMethods: {
+    //     associate: function(models) {
+    //       // Associating User with Request
+    //       User.hasMany(models.Request, {
+    //         // Not sure what we want for deletions, low priority (TY)
+    //         onDelete: "cascade"
+    //       });
+    //     }
+    //   }
+    // }
 
-  },
-    {
-      // We're saying that we want our User to have Posts
-      classMethods: {
-        associate: function(models) {
-          // Associating User with Request
-          User.hasMany(models.Request, {
-            // Not sure what we want for deletions, low priority (TY)
-            onDelete: "cascade"
-          });
-        }
-      }
-    }
-  );
-
-  return User;
+  })
 };
+
+
+
+

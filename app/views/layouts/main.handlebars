@@ -43,6 +43,10 @@
 </head>
 
 <body>
+<<<<<<< HEAD:views/layouts/main.handlebars
+<!-- static header -->
+
+=======
     <!-- ============ -->
     <!-- static header -->
     <!-- ============ -->
@@ -51,7 +55,14 @@
         <div class="register-block pad-top-5 pad-bottom-5 container text-center">
             <h2 class="uppercase" style="color:white">Don't Eat Alone</h2>
         </div>
+        {{#if user}}
+          Signed in as {{user}}. <a href="/signout">Sign Out</a>
+        {{else}}
+          <a href='/signin'>Sign In</a>
+          <a href='/signup'>Sign Up</a>
+        {{/if}}
     </div>
+>>>>>>> master:app/views/layouts/main.handlebars
 
 <!-- Dynamically ADD CONTENT HERE using handlebars -->
 {{{ body }}}
