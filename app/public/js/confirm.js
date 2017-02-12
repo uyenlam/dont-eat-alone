@@ -1,5 +1,6 @@
-$(document).ready(function(){
 
+$(document).ready(function(){
+  // once we click the submit button
   $("#submit").click(function() {
     //grab user's input
     var userProfile = {
@@ -24,39 +25,19 @@ $(document).ready(function(){
       ],
       "locationName":"",
     };
-
-    function locate() {
-        navigator.geolocation.getCurrentPosition(initialize, fail);
-    };
-
-    function initialize(position) {
-        var myLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-        //console.log(position.coords.latitude);
-        var mapOptions = {
-            zoom: 17,
-            center: myLatLng,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-        console.log(myLatLng.lng(), myLatLng.lat());
-        userProfile.location.lat = myLatLng.lat();
-        userProfile.location.long = myLatLng.lng();
-    }
-
-    locate().then(function(){
+   
+    //execute the function
       $.ajax( {
-          data: userProfile.location,
-          url: "/confirm",
-          method: "GET"
+          data: userProfile
+          url: "/api/newuser,
+          method: "POST"
         }).done(function(res){
-            userProfile.locationName = res,
-      //WHATEVER UYENS PROCESS IS FOR DISPLAYING THIS ON THE SCREEN;
+            console.log('User profile posted to database');
         });
-    }).then(function(){
-      $.post({
-        "/api/newuser",
-        ,
-        window.location.replace('/findpeople'),
-      });
-    };
-  });
-});
+   
+
+
+
+  
+
+
