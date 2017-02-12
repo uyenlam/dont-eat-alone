@@ -1,0 +1,116 @@
+<!-- ********************************************************************* -->
+<!-- WE ARE USING TWO CSS FRAMEWORKS IN THIS APP, FROM MATERIALIZE AND PURE CSS, WITH PURE CSS BEING THE DOMINANT ONE -->
+<!-- MATERILIZE CDN IS PLACED BEFORE CSS FILES FROM PURE CSS DUE TO CSS CASCADING ORDER, THE RULES FROM THE LATTER FILE WILL OVERWRITE THE FORMER ONE -->
+<!-- ********************************************************************* -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Don't Eat Alone</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- ********************************************************************* -->
+    <!--Import jQuery before materialize.js-->
+    <script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+    <!-- Compiled and minified JavaScript / Materialize -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+
+    <!-- PURE CSS CDN for the request management portal -->
+    <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/pure-min.css" crossorigin="anonymous">
+    <!-- CSS files -->
+    <!-- Our CSS file, this includes PURE CSS file for the request management portal -->
+    <link rel="stylesheet" href="../public/css/style.css" type="text/css" />
+    <!-- Template CSS file, this includes Base CSS file for the general template-->
+    <link rel="stylesheet" href="../public/css/styles.css" type="text/css" />
+    <!-- Javascript files -->
+    <!-- Template Javascript files -->
+    <script src="../../app/public/js/vendor/webfontloader.js"></script>
+    <script src="../../app/public/js/vendor/bootstrap.transition.js"></script>
+    <script src="../../app/public/js/vendor/bootstrap.carousel.js"></script>
+    <script src="../../app/public/js/vendor/bootstrap.collapse.js"></script>
+    <script src="../../app/public/js/vendor/bootstrap.dropdown.js"></script>
+    <script src="../../app/public/js/vendor/bootstrap.tab.js"></script>
+    <!-- Javascript file for animated logo on the front page -->
+    <script src="../../app/public/js/vendor/jquery.drawsvg.js"></script>
+     <script src="../../app/public/js/default.js"></script>
+     <!-- JavaScript for Google Map -->
+     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-495IBdppX1la6lBN5KTa8-bQG8_6UCQsensor=false"></script>
+    <!-- Our own Javascript file scripts are put into the corresponding handlebars files -->
+</head>
+
+<body>
+<<<<<<< HEAD:views/layouts/main.handlebars
+<!-- static header -->
+
+=======
+    <!-- ============ -->
+    <!-- static header -->
+    <!-- ============ -->
+
+    <div class="grey-row" style="background-color:#f26c39">
+        <div class="register-block pad-top-5 pad-bottom-5 container text-center">
+            <h2 class="uppercase" style="color:white">Don't Eat Alone</h2>
+        </div>
+        {{#if user}}
+          Signed in as {{user}}. <a href="/signout">Sign Out</a>
+        {{else}}
+          <a href='/signin'>Sign In</a>
+          <a href='/signup'>Sign Up</a>
+        {{/if}}
+    </div>
+>>>>>>> master:app/views/layouts/main.handlebars
+
+<!-- Dynamically ADD CONTENT HERE using handlebars -->
+{{{ body }}}
+
+    <!-- ============ -->
+    <!-- body footer -->
+    <!-- ============ -->
+    <div class="footer-block">
+        <div class="footer pad-top-60 pad-bottom-60">
+            <div class="container-full">
+                <div class="clear footer-content-blocks">
+                    <div class="footer-content-block col-4-m col-5-l">
+                        <div class="col-11-l no-float-l">
+                            <h3 class="fs-4 h-white">Don't eat alone</h3>
+                            <p class="no-margin">
+                                No one should eat alone. Find a conversation partner here.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="footer-content-block col-4-m col-4-l">
+                        <div class="col-10-l no-float-l">
+                            <!-- this div serves as a spacer -->
+                        </div>
+                    </div>
+                    <div class="footer-content-block col-4-m col-3-l" style="float: right" >
+                        <div class="col-12-l no-float-l">
+                            <h3 class="fs-4 h-white">Get In Touch</h3>
+                            <ul class="contact-list">
+                                <li><a class="footer-link icon icon-left icon-phone" href="#">+62 853 539 2001</a></li>
+                                <li><a class="footer-link icon icon-left icon-email" href="#">DontEatAlone@eat.com</a></li>
+                                <li><a class="footer-link icon icon-left icon-skype" href="#">DEAsupport</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                <p>
+                    @ Copyright 2017 Uyen Lam, Tyler Yonke, Chad Chaney
+                </p>
+            </div>
+        </div>
+        <!-- footer-copyright -->
+    </div>
+    <!-- footer-block -->
+
+</body>
+
+</html>

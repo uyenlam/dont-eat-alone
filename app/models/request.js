@@ -27,6 +27,7 @@ module.exports = function(sequelize, DataTypes) {
         len: [1]
       }
     }
+
   }
     // ,{
     //   // We're saying that we want our Author to have Requests
