@@ -210,4 +210,21 @@ module.exports = function(app) {
         });
     });
 
+    app.get('/nearby/:lat/:lon', function(req, res){
+
+        console.log('req.params', req.params)
+        client.getGeocode({
+        lat:req.params.lat,
+        lon:req.params.lon,
+        }, function(err, result){
+            if(!err){
+              res.send(result);
+            } else {
+                res.send('error');
+              console.log(err);
+            }
+      });
+
+})
+
 };

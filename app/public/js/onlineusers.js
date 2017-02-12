@@ -4,3 +4,8 @@
 // and name that variable, var user, so that handlebars can begin populate information
 // from that variable onto the DOM (reference file locationdata.handlebars to understand
 // the front-end construction).
+$(document).ready(function(){
+
+     $('#modal1').modal();
+
+});

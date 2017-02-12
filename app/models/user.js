@@ -55,14 +55,6 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
 
     },
-    // // Passport login info
-    // username: DataTypes.STRING,
-    // hash: {
-    //     type: DataTypes.TEXT
-    // },
-    // salt: {
-    //     type: DataTypes.STRING
-    // }
 
   },
     {
@@ -78,12 +70,6 @@ module.exports = function(sequelize, DataTypes) {
       }
     }
   );
-
-  // passportLocalSequelize.attachToUser(User, {
-  //     usernameField: 'username',
-  //     hashField: 'hash',
-  //     saltField: 'salt'
-  // });
 
   return User;
 };
