@@ -4,7 +4,8 @@
 //
 // // !!! THIS IS A CONTROLLER - I THINK (TY) !!! If so we will need to run render commands through these routes.
 
-var passport = require('passport');
+
+/*var passport = require('passport');
 var Strategy = require('passport-local').Strategy;
 
 // Define routes.
@@ -179,3 +180,4 @@ module.exports = function(app) {
 //     // if they aren't redirect them to the home page
 //     res.redirect('/');
 // }
+*/

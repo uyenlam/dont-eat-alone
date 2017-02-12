@@ -1,4 +1,13 @@
-var records = [
+var Sequelize = require("sequelize")
+module.exports = function(db){
+  return db.define("user",{
+    username: Sequelize.STRING,
+    password: Sequelize.STRING
+  })
+}
+
+
+/* var records = [
     { id: 1, username: 'jack', password: 'secret', displayName: 'Jack', email: 'jack@example.com' }
   , { id: 2, username: 'jill', password: 'birthday', displayName: 'Jill', email: 'jill@example.com' }
 ];
@@ -53,3 +62,4 @@ exports.findByUsername = function(username, cb) {
 //       }
 //     }
 //   }
+*/
