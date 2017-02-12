@@ -16,13 +16,44 @@ module.exports = function(sequelize, DataTypes) {
     photoLink:{
       type: DataTypes.STRING
     },
-    preferences: {
+    vegetarian: {
       // This will be multiple fields when we determine what prefs we want to ask of user
-      type: DataTypes.STRING
+      type: DataTypes.BOOLEAN
     },
-    location: {
+    differentDiet:{
+      type:DataTypes.BOOLEAN
+    },
+    favFood:{
+      type:DataTypes.STRING
+    },
+    leastFood:{
+      type:DataTypes.STRING
+    },
+    favDrink:{
+      type:DataTypes.STRING
+    },
+    leastDrink:{
+      type:DataTypes.STRING
+    },
+    introExtro:{
+      type:DataTypes.STRING
+    },
+    freeTime:{
+      type:DataTypes.STRING
+    },
+    payView:{
+      type:DataTypes.STRING
+    },
+    cookView:{
+      type:DataTypes.STRING
+    },
+    minAvail:{
+      type:DataTypes.NUMBER
+    },
+    locationLat: {
       type: DataTypes.STRING,// Not sure the best way to go about this for sorting pursposes
       allowNull: true
+
     },
     // // Passport login info
     // username: DataTypes.STRING,

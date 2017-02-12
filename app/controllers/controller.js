@@ -73,11 +73,24 @@ module.exports = function(app) {
         User.create({
             name: req.body.name,
             age: req.body.age,
-            preferences: req.body.preferences
-                // etc.
+            occupation: req.body.occupation,
+            photoLink: req.body.photoLink,
+            vegetarian: req.body.vegetarian,
+            differentDiet: req.body.differentDiet,
+            favFood: req.body.favFood,
+            leastFood: req.body.leastFood,
+            favDrink: req.body.favDrink,
+            leastDrink: req.body.leastDrink,
+            introExtro: req.body.introExtro,
+            freeTime: req.body.freeTime,
+            payView: req.body.payView,
+            cookView: req.body.cookView,
+            minAvail: req.body.minAvail,
+            locationLat: req.body.location.lat,
+            locationLong: req.body.location.long,
+            locationName: req.body.locationName
+        });
 
-
-        })
         User.register(req.body.username, req.body.password, function(err, account) {
             if (err) {
                 console.log(err);
@@ -103,10 +116,24 @@ module.exports = function(app) {
     // Update user profile
     app.put("/api/profile", function(req, res) {
         db.User.update({
-            name: req.body.name,
-            age: req.body.age,
-            preferences: req.body.preferences
-                // etc.
+          name: req.body.name,
+          age: req.body.age,
+          occupation: req.body.occupation,
+          photoLink: req.body.photoLink,
+          vegetarian: req.body.vegetarian,
+          differentDiet: req.body.differentDiet,
+          favFood: req.body.favFood,
+          leastFood: req.body.leastFood,
+          favDrink: req.body.favDrink,
+          leastDrink: req.body.leastDrink,
+          introExtro: req.body.introExtro,
+          freeTime: req.body.freeTime,
+          payView: req.body.payView,
+          cookView: req.body.cookView,
+          minAvail: req.body.minAvail,
+          locationLat: req.body.location.lat,
+          locationLong: req.body.location.long,
+          locationName: req.body.locationName
         }, {
             where: {
                 id: req.body.id
