@@ -1,41 +1,9 @@
-<!-- views/profile.ejs -->
-<!doctype html>
-<html>
-<head>
-    <title> Don't Eat Alone</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-    <style>
-        body        { padding-top:80px; word-wrap:break-word; }
-    </style>
-</head>
-<body>
-<div class="container">
-
-    <div class="page-header text-center">
-        <h1><span class="fa fa-anchor"></span> Profile Page</h1>
-        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
-    </div>
-
-    <div class="row">
-
-        <!-- GOOGLE INFORMATION -->
-        <div class="col-sm-6">
-            <div class="well">
-                <h3 class="text-danger"><span class="fa fa-google-plus"></span> Google</h3>
-
-                    <p>
-                        <strong>id</strong>: {{user.googleid}}<br>
-                        <strong>token</strong>: {{user.googletoken}}<br>
-                        <strong>email</strong>: {{user.googleemail}}<br>
-                        <strong>name</strong>: {{user.googlename}}
-                    </p>
-
-            </div>
-        </div>
-
-    </div>
-
-</div>
-</body>
-</html>
+<span>
+ID: {{user.id}}<br/>
+Username: {{user.username}}<br>
+Name: {{user.displayName}}<br>
+{{#if user.email}}
+Email: {{user.email}}<br>
+{{/if}}
+</span>
+<a href="/logout">Log out</a>
