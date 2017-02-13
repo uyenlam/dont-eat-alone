@@ -2,23 +2,50 @@
 // this class .btnLogin is assigned to the 'Sign Up' and 'Sign In' buttons
 // in the two "Sign Up" and "Sign In" modals
 
-
-
 // Modal functions
 $(document).ready(function(){
-  $('#modal3').modal('open');
-  $('#modal4').modal('open');
-  $('.modal').modal({
-      dismissible: true, // Modal can be dismissed by clicking outside of the modal
-      opacity: .5, // Opacity of modal background
-      in_duration: 300, // Transition in duration
-      out_duration: 200, // Transition out duration
-      starting_top: '4%', // Starting top style attribute
-      ending_top: '10%', // Ending top style attribute
-      ready: function(modal, trigger) { // Callback for Modal open. Modal and trigger parameters available.
+  // When the user clicks the Sign up red button on the welcome page
+  // open the sign up modal
+  $('#modal3').modal();
+  // When the user clicks the Sign in red button on the welcome page
+  // open the sign in modal
+  $('#modal4').modal();
 
-          console.log(modal, trigger);
-      },
-      complete: function() {} // Callback for Modal close
+  // When the user clicks submit in the sign-up modal
+  $('#sign-up-btn').click(function(){
+    // grab user's input
+    var userSignup = {
+      "username":$('#username-signup').val().trim(),
+      "password":$('#password-signup').val(),
+      "photoLink":$('#photoLink-signup').val().trim(),
+    }
+    // post it to our signup API
+    $.ajax( {
+        data: userSignup,
+        url: "/api/signup",
+        method: "GET"
+      }).done(function(res){
+        // according to codes in controller.js, the user will be directed to
+        // /confirm page
+          console.log("User sign up information posted to server");
+      });
   });
+
+  // When the user clicks submit in the sign-in modal
+  $('#sign-in-btn').click(function(){
+    // grab user's input
+    var userSignin = {
+      "username":$('#username-signin').val().trim(),
+      "password":$('#password-signin').val(),
+    }
+    // post it to our signin API
+    $.ajax( {
+        url: "/api/signin",
+        method: "GET"
+      }).done(function(res){
+          // according to codes in controller.js, the user will be directed to
+          // /confirm page
+          console.log("User sign in request sent to server");
+      });
+  })
 })
