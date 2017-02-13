@@ -32,12 +32,12 @@ module.exports = function(db) {
 
   } //end of first parameter of sequelize.define
     ,{
-      // We're saying that we want our Author to have Requests
+      // We're saying that we want our User to have Requests
       classMethods: {
         associate: function(models) {
-          // An Author (foreignKey) is required or a Request can't be made
+          // A User (foreignKey) is required or a Request can't be made
           // Working on how to make request associate with multiple users (TY)
-          Request.belongsTo(models.Author, {
+          Request.belongsTo(models.User, {
             foreignKey: {
               allowNull: false
             }

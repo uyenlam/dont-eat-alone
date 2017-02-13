@@ -118,7 +118,7 @@ module.exports = function(app) {
         failureFlash: 'Invalid username or password.'
     }));
 
-    app.get("/api/signout", function(req, res) {
+    app.put("/api/signout", function(req, res) {
         db.User.update({
           // change the online status to false once signed out
           online: false
@@ -238,11 +238,11 @@ module.exports = function(app) {
 
 
 
-    // Create new request
+    // Create new request to another user
     app.post("/api/:user/newrequest", function(req, res) {
         db.Request.create({
-            sender: req.params.user,
-            recipient: req.body.recipient,
+            recipient: req.params.user,
+            sender: req.user,
             text: req.body.text
                 // etc.
         })
