@@ -13,23 +13,12 @@ var Strategy = require('passport-local').Strategy;
 // =============================================================
 module.exports = function(app) {
 
-    app.post('/login',
-        passport.authenticate('local', { failureRedirect: '/login' }),
-        function(req, res) {
-            res.redirect('/');
-        });
-
-    app.get('/logout',
-        function(req, res) {
-            req.logout();
-            res.redirect('/');
-        });
-
-    app.get('/profile',
-        require('connect-ensure-login').ensureLoggedIn(),
-        function(req, res) {
-            res.render('profileplaceholder', { user: req.user });
-        });
+    app.use(function(req, res, next) {
+        if (req.user) {
+            res.locals.user = req.user.username
+        }
+        next()
+    });
 
     // HTML ROUTES==================================================
     // index route loads welcome.handlebars
@@ -45,8 +34,8 @@ module.exports = function(app) {
         res.render("findpeople");
     });
 
-    // Find the 6 closest online users for the friendsdata.handlebars
-    app.get("/onlineusers", function(req, res) {
+    // Make sure the user is signed in first, then find the 6 closest online users for the friendsdata.handlebars
+    app.get("/onlineusers", require('connect-ensure-login').ensureLoggedIn(), function(req, res) {
 
         db.User.findAll({
                 where: {
@@ -69,56 +58,50 @@ module.exports = function(app) {
 
     });
 
+    // app.get('/profile',
+    //     require('connect-ensure-login').ensureLoggedIn(),
+    //     function(req, res) {
+    //         res.render('profileplaceholder', { user: req.user });
+    //     });
+
 
     // API ROUTES==============================================
-    // Add a new user
-    app.post("/api/newuser", function(req, res) {
-
-        User.create({
-            name: req.body.name,
-            age: req.body.age,
-            occupation: req.body.occupation,
-            photoLink: req.body.photoLink,
-            vegetarian: req.body.vegetarian,
-            differentDiet: req.body.differentDiet,
-            favFood: req.body.favFood,
-            leastFood: req.body.leastFood,
-            favDrink: req.body.favDrink,
-            leastDrink: req.body.leastDrink,
-            introExtro: req.body.introExtro,
-            freeTime: req.body.freeTime,
-            payView: req.body.payView,
-            cookView: req.body.cookView,
-            minAvail: req.body.minAvail,
-            locationLat: req.body.location.lat,
-            locationLong: req.body.location.long,
-            locationName: req.body.locationName
-        });
-
-        User.register(req.body.username, req.body.password, function(err, account) {
-            if (err) {
-                console.log(err);
-                return res.json(err);
-            }
-            passport.authenticate('local')(req, res, function() {
-                res.redirect('/');
-            });
-        });
-    });
-
-    // Get user info based on id
-    app.get("/api/:userid", function(req, res) {
+    // This link is called on the welcome.js page
+    app.post("/api/signup", function(req, res, next) {
+        // check if the same username already exists
         db.User.findOne({
             where: {
-                id: req.params.userid
+                username: req.body.username
             }
-        }).then(function(result) {
-            return res.json(result);
+        }).then(function(user) {
+            // if the username doesn't exist, proceed to create a new one
+            if (!user) {
+                User.create({
+                    username: req.body.username,
+                    password: bcrypt.hashSync(req.body.password)
+                }).then(function(user) {
+                    passport.authenticate("local", { failureRedirect: "/welcome", successRedirect: "/confirm" })(req, res, next)
+                })
+            } else { // if it does, then prevent signing up, redirect back to the welcome page
+                res.send("user exists");
+                res.redirect("/welcome");
+            }
         })
     });
 
-    // Update user profile
-    app.put("/api/profile", function(req, res) {
+    app.post("/api/signin", passport.authenticate('local', {
+        failureRedirect: '/welcome',
+        successRedirect: '/confirm'
+    }));
+
+    app.get("/api/signout", function(req, res) {
+        req.session.destroy()
+        res.redirect("/welcome");
+    });
+
+    // Add more information to a new user - this link is called on the confirm.js page
+    app.put("/api/newuser", function(req, res) {
+
         db.User.update({
             name: req.body.name,
             age: req.body.age,
@@ -138,14 +121,37 @@ module.exports = function(app) {
             locationLat: req.body.location.lat,
             locationLong: req.body.location.long,
             locationName: req.body.locationName
-        }, {
+        } {
             where: {
                 id: req.body.id
             }
         }).then(function(result) {
             return res.json(result);
+        });;
+
+        User.register(req.body.username, req.body.password, function(err, account) {
+            if (err) {
+                console.log(err);
+                return res.json(err);
+            }
+            passport.authenticate('local')(req, res, function() {
+                res.redirect('/');
+            });
         });
     });
+
+
+    // Get user info based on id
+    app.get("/api/:userid", function(req, res) {
+        db.User.findOne({
+            where: {
+                id: req.params.userid
+            }
+        }).then(function(result) {
+            return res.json(result);
+        })
+    });
+
 
     // Log user on
     app.put("/api/status/:user/:onoff", function(req, res) {

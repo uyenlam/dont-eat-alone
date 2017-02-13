@@ -1,15 +1,39 @@
-<<<<<<< HEAD
-var express = require('express');
+
+// *********************************************************************************
+// Server.js - This file is the initial starting point for the Node/Express server.
+// *********************************************************************************
+
+// Dependencies - general
+// =============================================================
+var express = require("express");
 var app = express();
-var methodOverride = require("method-override");
+var fs = require('fs');
 var bodyParser = require("body-parser");
+var methodOverride = require("method-override");
+var exphbs 	= require("express-handlebars");
+
+//Dependencies for location function
+// =============================================================
+var http = require('http');
+var path = require('path');
+var zomato = require('zomato');
+var env = process.env;
+var client = zomato.createClient({
+  userKey: '67439a2a6001f3cc23b26aba575a54ff', //as obtained from [Zomato API](https://developers.zomato.com/apis)
+});
+
+
+//Dependencies for sign-in functions
+// =============================================================
 var bcrypt = require("bcrypt-nodejs");
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+
 var db = require('./app/config/db');
 var User = require("./app/models/user")(db);
-var exphbs = require("express-handlebars");
 
+// Passing information to each variable
+// =============================================================
 app.use(methodOverride("_method"));
 app.use(express.static("public"));
 
@@ -25,28 +49,9 @@ app.use(require('express-session')({ secret: 'super-secret', resave: false, save
 
 app.use(passport.initialize());
 app.use(passport.session());
-=======
-// *********************************************************************************
-// Server.js - This file is the initial starting point for the Node/Express server.
-// *********************************************************************************
 
-// Dependencies
+// Passport.js
 // =============================================================
-var express = require("express");
-var fs = require('fs');
-var bodyParser = require("body-parser");
-var methodOverride = require("method-override");
-var exphbs 	= require("express-handlebars");
-var http = require('http');
-var path = require('path');
-var zomato = require('zomato');
-var env = process.env;
-var client = zomato.createClient({
-  userKey: '67439a2a6001f3cc23b26aba575a54ff', //as obtained from [Zomato API](https://developers.zomato.com/apis)
-});
-
-//
->>>>>>> master
 
 passport.use(new LocalStrategy(function(username, pass, cb){
   var hashedPass = bcrypt.hashSync(pass)
@@ -75,70 +80,8 @@ passport.deserializeUser(function(id, cb) {
   });
 });
 
-app.use(function(req, res, next){
-  if(req.user){
-    res.locals.user = req.user.username
-  }
-  next()
-});
 
-app.get("/", function(req, res){
-  res.redirect("/posts")
-});
-
-<<<<<<< HEAD
-app.get("/posts", function(req, res){
-  res.render("posts")
-});
-
-app.get("/signin", function(req, res){
-  res.render("signin")
-});
-
-app.get("/signup", function(req, res){
-  res.render("signup")
-});
-
-app.get("/signout", function(req, res){
-  req.session.destroy()
-  res.redirect("/posts")
-});
-
-app.post("/signin", passport.authenticate('local', {
-  failureRedirect: '/signin',
-  successRedirect: '/posts'
-}));
-
-app.post("/signup", function(req, res, next){
-  User.findOne({
-    where: {
-     username: req.body.username
-    }
-  }).then(function(user){
-    if(!user){
-      User.create({
-        username: req.body.username,
-        password: bcrypt.hashSync(req.body.password)
-      }).then(function(user){
-        passport.authenticate("local", {failureRedirect:"/signup", successRedirect: "/posts"})(req, res, next)
-      })
-    } else {
-      res.send("user exists")
-    }
-  })
-});
-=======
-//
-// // Requiring our models for syncing
-var db = require("./app/models"); //requiring the whole model.
-
-// Override with POST having ?_method=DELETE
-app.use(methodOverride("_method"));
-
-app.engine("handlebars", exphbs({ defaultLayout: "main" }));
-app.set("view engine", "handlebars");
->>>>>>> master
-
+// Notif for successful server connection
 app.listen(3000, function() {
   console.log("Listening on port 3000")
 });
