@@ -85,3 +85,5 @@ passport.deserializeUser(function(id, cb) {
 app.listen(3000, function() {
   console.log("Listening on port 3000")
 });
+
+require("./app/controllers/controller.js");
