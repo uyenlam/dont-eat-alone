@@ -1,5 +1,7 @@
-module.exports = function(sequelize, DataTypes) {
-  var Request = sequelize.define("Request", {
+var Sequelize = require("sequelize");
+
+module.exports = function(db) {
+  return db.define("Request", {
     sender: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -26,23 +28,23 @@ module.exports = function(sequelize, DataTypes) {
       validate: {
         len: [1]
       }
-    }
+    } //status
 
-  }
-    // ,{
-    //   // We're saying that we want our Author to have Requests
-    //   classMethods: {
-    //     associate: function(models) {
-    //       // An Author (foreignKey) is required or a Request can't be made
-    //       // Working on how to make request associate with multiple users (TY)
-    //       Request.belongsTo(models.Author, {
-    //         foreignKey: {
-    //           allowNull: false
-    //         }
-    //       });
-    //     }
-    //   }
-    // }
+  } //end of first parameter of sequelize.define
+    ,{
+      // We're saying that we want our Author to have Requests
+      classMethods: {
+        associate: function(models) {
+          // An Author (foreignKey) is required or a Request can't be made
+          // Working on how to make request associate with multiple users (TY)
+          Request.belongsTo(models.Author, {
+            foreignKey: {
+              allowNull: false
+            }
+          });
+        }
+      }
+    }
   );
   return Request;
 };
