@@ -44,9 +44,10 @@ module.exports = function(app) {
     });
 
     // Make sure the user is signed in first, then find the 6 closest online users for the friendsdata.handlebars
-    app.get("/onlineusers", require('connect-ensure-login').ensureLoggedIn(), function(req, res) {
+    app.get("/onlineusers", require('connect-ensure-login').ensureLoggedIn(), function(req1, res) {
 
         db.User.findAll({
+                // find all online users
                 where: {
                     online: true
                 },
@@ -54,17 +55,25 @@ module.exports = function(app) {
                 order: [
                         [sequelize.col("location"), "DESC"]
                     ] // This will be the sort to who is closer (don't know how to do yet)
-            }).then(function(result) {
-                firstResult = result;
-                db.Request.findAll({
-                    where: {
-                        $or: [{ sender: req.params.user }, { recipient: req.params.user }] // I think this is correct syntax for "or" in query
+              }).then(function(result1) {
+                  // find information of the current logged in user
+                  db.User.findOne({
+                    where:{
+                      username: req.user.username
                     }
-                }).then(function(result2) {
-                    res.render("onlineusers", { firstData: firstResult, secondData: result2 });
-                })
-            }),
-
+                  }).then(function(result2) {
+                      // find all received and sent requests
+                      db.Request.findAll({
+                        where: {
+                            // find in the Request model where it matches the logged-in user's id, found in result2
+                            $or: [{ sender: result2.id }, { recipient: result2.id }] // I think this is correct syntax for "or" in query
+                        }
+                    }).then(function(result3){
+                      // pass results into variables that work with handlebars
+                      res.render("onlineusers", { onlineusers: result1, user: result2, requester: result3 });
+                    });
+                });
+              });
     });
 
     // app.get('/profile',
@@ -93,7 +102,7 @@ module.exports = function(app) {
                 }).then(function(user) {
                     // if authentication fails, redirect back to welcome page
                     // if authentication succeeds, redirect to confirm page
-                    passport.authenticate("local", { failureRedirect: "/welcome", successRedirect: "/confirm" })(req, res, next)
+                    passport.authenticate("local", { failureRedirect: "/welcome", successRedirect: "/confirm", failureFlash: "Failed to create a new user" })(req, res, next)
                 })
             } else { // if it does, then prevent signing up, redirect back to the welcome page to sign in instead
                 res.send("user exists");
@@ -110,8 +119,17 @@ module.exports = function(app) {
     }));
 
     app.get("/api/signout", function(req, res) {
-        req.session.destroy()
-        res.redirect("/welcome");
+        db.User.update({
+          // change the online status to false once signed out
+          online: false
+        },{
+          where: {
+            username: req.user.username
+          }
+        }).then(function(result){
+          req.session.destroy()
+          res.redirect("/welcome");
+        })
     });
 
     // Add more information to a new user - this link is called on the confirm.js page
@@ -141,11 +159,12 @@ module.exports = function(app) {
         },{
             where: {
                 // where the username matches the username of the current session
-                username: req.body.user.username
+                username: req.user.username
             }
         }).then(function(result) {
             return res.json(result);
         });;
+
         // Uyen: I'm not sure what's the purpose of the following function?
         //=================================================================
         // db.User.register(req.body.username, req.body.password, function(err, account) {
@@ -221,7 +240,7 @@ module.exports = function(app) {
 
     // Create new request
     app.post("/api/:user/newrequest", function(req, res) {
-        Request.create({
+        db.Request.create({
             sender: req.params.user,
             recipient: req.body.recipient,
             text: req.body.text
