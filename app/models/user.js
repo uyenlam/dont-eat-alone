@@ -58,8 +58,18 @@ module.exports = function(db){
     locationLat: {
       type: Sequelize.STRING,// Not sure the best way to go about this for sorting pursposes
       allowNull: true
-
     },
+    locationLong: {
+      type: Sequelize.STRING,
+    },
+    locationName: {
+      type: Sequelize.STRING,
+      allowNull: true
+    },
+    online:{
+      type: Sequelize.BOOLEAN,
+      default: false,
+    }
     // {
     //   // We're saying that we want our User to have Posts
     //   classMethods: {
@@ -75,7 +85,3 @@ module.exports = function(db){
 
   })
 };
-
-
-
-

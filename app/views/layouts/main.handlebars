@@ -40,24 +40,61 @@
      <!-- JavaScript for Google Map -->
      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-495IBdppX1la6lBN5KTa8-bQG8_6UCQsensor=false"></script>
     <!-- Our own Javascript file scripts are put into the corresponding handlebars files -->
+    <script>
+      // script that handles the sign-up/ sign-in/ sign-out functions on the
+      // static header, which will be consistent among all pages
+      $('#sign-out').click(function(){
+        $.ajax( {
+            url: "/api/signout",
+            method: "GET"
+          }).done(function(res){
+              //as a result of the app.get function in controller.js
+              // the user will be logged out AND redirected to /welcome page
+              console.log('User successfully logged out');
+          });
+      });
+      // this button is on the static header, it is meant to redirect the user
+      // back to the welcome page and use the sign-up modal
+      $('#sign-in').click(function(){
+        $.ajax( {
+            url: "/",
+            method: "GET"
+          }).done(function(res){
+            //as a result of the app.get function in controller.js
+            // the user will be redirected to /welcome page
+              console.log('User redirected to welcome page');
+          });
+      });
+
+    </script>
 </head>
 
 <body>
-    <!-- ============ -->
-    <!-- static header -->
-    <!-- ============ -->
 
-    <div class="grey-row" style="background-color:#f26c39">
-        <div class="register-block pad-top-5 pad-bottom-5 container text-center">
-            <h2 class="uppercase" style="color:white">Don't Eat Alone</h2>
-        </div>
-        {{#if user}}
-          Signed in as {{user}}. <a href="/signout">Sign Out</a>
-        {{else}}
-          <a href='/signin'>Sign In</a>
-          <a href='/signup'>Sign Up</a>
-        {{/if}}
-    </div>
+  <!-- ============ -->
+  <!-- static header -->
+  <!-- ============ -->
+
+  <div class="grey-row" style="background-color:#f26c39">
+      <div class="register-block pad-top-5 pad-bottom-5 container text-center" style="float:left">
+          <h2 class="uppercase" style="color:white">Don't Eat Alone</h2>
+      </div>
+      {{#if user}}
+      <div class="register-block pad-top-5 pad-bottom-5 container text-center" style="float:right">
+          <h4 class="uppercase" style="color:white">
+            Signed in as {{user}}. <a id="sign-out">Sign Out</a>
+          </h4>
+      </div>
+
+      {{else}}
+      <div class="register-block pad-top-5 pad-bottom-5 container text-center" style="float:right">
+          <h4 class="uppercase" style="color:white">
+            You are not signed in.<a id="sign-in">Sign In</a>
+          </h4>
+      </div>
+      {{/if}}
+  </div>
+
 
 <!-- Dynamically ADD CONTENT HERE using handlebars -->
 {{{ body }}}

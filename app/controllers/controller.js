@@ -27,7 +27,16 @@ module.exports = function(app) {
     });
 
     app.get("/confirm", function(req, res) {
-        res.render("confirm");
+      // find the username on the database that matches the current session's username
+      db.User.findOne({
+          where: {
+              //req.user.name returns information of the user in this session
+              username: req.user.username
+          }
+      }).then(function(res1) {
+        // render the result into the user variable on the confirm.handlebars page
+        res.render("confirm",{user: res1});
+      })
     });
 
     app.get("/findpeople", function(req, res) {
@@ -67,6 +76,7 @@ module.exports = function(app) {
 
     // API ROUTES==============================================
     // This link is called on the welcome.js page
+    // Sign up link
     app.post("/api/signup", function(req, res, next) {
         // check if the same username already exists
         db.User.findOne({
@@ -76,22 +86,27 @@ module.exports = function(app) {
         }).then(function(user) {
             // if the username doesn't exist, proceed to create a new one
             if (!user) {
-                User.create({
+                db.User.create({
                     username: req.body.username,
-                    password: bcrypt.hashSync(req.body.password)
+                    password: bcrypt.hashSync(req.body.password),
+                    photoLink: req.body.photoLink,
                 }).then(function(user) {
+                    // if authentication fails, redirect back to welcome page
+                    // if authentication succeeds, redirect to confirm page
                     passport.authenticate("local", { failureRedirect: "/welcome", successRedirect: "/confirm" })(req, res, next)
                 })
-            } else { // if it does, then prevent signing up, redirect back to the welcome page
+            } else { // if it does, then prevent signing up, redirect back to the welcome page to sign in instead
                 res.send("user exists");
                 res.redirect("/welcome");
             }
         })
     });
 
+    //sign in link
     app.post("/api/signin", passport.authenticate('local', {
         failureRedirect: '/welcome',
-        successRedirect: '/confirm'
+        successRedirect: '/confirm',
+        failureFlash: 'Invalid username or password.'
     }));
 
     app.get("/api/signout", function(req, res) {
@@ -100,44 +115,50 @@ module.exports = function(app) {
     });
 
     // Add more information to a new user - this link is called on the confirm.js page
-    app.put("/api/newuser", function(req, res) {
+    app.put("/api/confirmuser", function(req1, res) {
 
         db.User.update({
-            name: req.body.name,
-            age: req.body.age,
-            occupation: req.body.occupation,
-            photoLink: req.body.photoLink,
-            vegetarian: req.body.vegetarian,
-            differentDiet: req.body.differentDiet,
-            favFood: req.body.favFood,
-            leastFood: req.body.leastFood,
-            favDrink: req.body.favDrink,
-            leastDrink: req.body.leastDrink,
-            introExtro: req.body.introExtro,
-            freeTime: req.body.freeTime,
-            payView: req.body.payView,
-            cookView: req.body.cookView,
-            minAvail: req.body.minAvail,
-            locationLat: req.body.location.lat,
-            locationLong: req.body.location.long,
-            locationName: req.body.locationName
-        } {
+            name: req1.body.name,
+            age: req1.body.age,
+            occupation: req1.body.occupation,
+            photoLink: req1.body.photoLink,
+            vegetarian: req1.body.vegetarian,
+            differentDiet: req1.body.differentDiet,
+            favFood: req1.body.favFood,
+            leastFood: req1.body.leastFood,
+            favDrink: req1.body.favDrink,
+            leastDrink: req1.body.leastDrink,
+            introExtro: req1.body.introExtro,
+            freeTime: req1.body.freeTime,
+            payView: req1.body.payView,
+            cookView: req1.body.cookView,
+            minAvail: req1.body.minAvail,
+            locationLat: req1.body.location.lat,
+            locationLong: req1.body.location.long,
+            locationName: req1.body.locationName,
+            // once the user signs in, his online status is changed to true
+            online: true,
+        },{
             where: {
-                id: req.body.id
+                // where the username matches the username of the current session
+                username: req.body.user.username
             }
         }).then(function(result) {
             return res.json(result);
         });;
+        // Uyen: I'm not sure what's the purpose of the following function?
+        //=================================================================
+        // db.User.register(req.body.username, req.body.password, function(err, account) {
+        //     if (err) {
+        //         console.log(err);
+        //         return res.json(err);
+        //     }
+        //     passport.authenticate('local')(req, res, function() {
+        //         res.redirect('/');
+        //     });
+        // });
+        //=================================================================
 
-        User.register(req.body.username, req.body.password, function(err, account) {
-            if (err) {
-                console.log(err);
-                return res.json(err);
-            }
-            passport.authenticate('local')(req, res, function() {
-                res.redirect('/');
-            });
-        });
     });
 
 

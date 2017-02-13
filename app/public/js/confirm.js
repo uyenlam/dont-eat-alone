@@ -25,13 +25,12 @@ $(document).ready(function(){
       "locationName":"",
     };
 
-    
+      // push to our API which will update the database
       $.ajax( {
           data: userProfile,
-          url: "/api/newuser",
+          url: "/api/confirmuser",
           method: "POST"
         }).done(function(res){
             console.log('User info successfully posted to database');
         });
 });
-    

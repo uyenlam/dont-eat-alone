@@ -1,29 +1,32 @@
+
 <!-- Modal structure -->
 <!-- Sign UP modal, using Materialize Framework -->
 <div id="modal3" class="modal">
-    <div class="modal-content">
-      <h4 class="teal-text text-darken-2">Sign Up</h4>
-      <input id="txtName" type="email" placeholder="Full Name">
-      <input id="txtPassword" type="password" placeholder="Password">
-      <input id="txtDob" type="date" placeholder="Date of Birth">
-      <button class="btnLogin" class="btn btn-action">Sign Up</button>
-      <!-- if click cancel, close the modal -->
-      <button href="#!" class="btn btn-action">Cancel</button>
-      <p id="user-message"></p>
+    <div class="modal-content input-field">
+      <h3 class="uppercase event-speaker-headline" style="margin-left: -30px">Sign up</h3>
+      <form action="/api/signup" method="post">
+        <input id="username-signup" type="text" placeholder="Username" required oninvalid="this.setCustomValidity('Please enter a username')">
+        <input id="password-signup" type="password" placeholder="Password" required oninvalid="this.setCustomValidity('Please enter a password')">
+        <input id="photolink-signup" type="text" placeholder="Link to your profile image" required oninvalid="this.setCustomValidity('Please enter a valid link')">
+        <!--submit button  -->
+        <input type="submit" value="Sign up" class="button button-primary modal-action modal-close" id="sign-up-btn">
+      </form>
+      <a class="button modal-action modal-close" href="#">Cancel</a>
     </div>
 
 </div>
 
 <!-- Sign IN modal, using Materialize Framework -->
 <div id="modal4" class="modal">
-    <div class="modal-content">
-      <h4 class="teal-text text-darken-2">Sign In</h4>
-      <input id="txtEmail" type="email" placeholder="Email">
-      <input id="txtPassword" type="password" placeholder="Password">
-      <button class="btnLogin" class="btn btn-action">Sign In</button>
-      <!-- if click cancel, close the modal -->
-      <button href="#!" class="btn btn-action">Cancel</button>
-      <p id="user-message"></p>
+    <div class="modal-content input-field">
+      <h3 class="uppercase event-speaker-headline" style="margin-left: -30px">Sign In</h3>
+      <form action="/api/signin" method="post">
+        <input id="username-signin" type="text" placeholder="Username" required oninvalid="this.setCustomValidity('Please enter a valid username')">
+        <input id="password-signin" type="password" placeholder="Password" required oninvalid="this.setCustomValidity('Please enter a valid password')">
+        <!-- submit button -->
+        <input type="submit" value="Sign in" class="button button-primary modal-action modal-close" id="sign-in-btn">
+      </form>
+      <a class="button modal-action modal-close" href="#">Cancel</a>
     </div>
 </div>
 

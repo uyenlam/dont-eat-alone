@@ -1,44 +1,4 @@
-<!-- Modal structure -->
-	 <!-- Sign UP modal, using Materialize Framework -->
-	 <div id="modal1" class="modal">
-			 <div class="modal-content">
-					 <div class="animated slideInLeft" id="square">
-							 <div class="animated bounceInUp" id="leftSquare">
-									 <div class="animated bounceInUp" id="circle">
-											 <img class="brand img-responsive" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/827672/branding.png" />
-									 </div>
-									 <h2 id="title">Welcome to Don't Eat Alone</h2>
-									 <h3 id="subtitle">You are moments away from finding a great dining partner</h3>
-							 </div>
-							 <div class="animated bounceInDown" id="rightSquare">
-									 <div id="container">
-											 <h1 class="signup">Sign Up </h1>
-											 <form className="animated slideInLeft">
-													 <input class="optin" type="text" placeholder="name" />
-													 <input class="optin" type="text" placeholder="email" />
-													 <input class="optin" type="password" placeholder="password" /> </form>
-											 <button class="animated infinite pulse button btn btn-info">
-													 <span><i class="fa fa-twitter" aria-hidden="true"></i></span><span id="twitter">Sign in with Twitter</span>
-											 </button>
-											 <h3 id="footer">By continuing you agree to our <span id="terms">terms & conditions.</span></h3>
-									 </div>
-							 </div>
-					 </div>
-			 </div>
-	 </div>
-	 <!-- Sign IN modal, using Materialize Framework -->
-	 <div id="modal2" class="modal">
-			 <div class="modal-content">
-					 <h4 class="teal-text text-darken-2">Sign In</h4>
-					 <input id="txtEmail" type="email" placeholder="Email">
-					 <input id="txtPassword" type="password" placeholder="Password">
-					 <button class="btnLogin" class="btn btn-action">Sign In</button>
-					 <!-- if click cancel, close the modal -->
-					 <button href="#!" class="btn btn-action">Cancel</button>
-					 <p id="user-message"></p>
-			 </div>
-	 </div>
-	 <!-- body content -->
+ <!-- body content -->
     <div id="confirm-banner" class="banner pad-top-45 pad-bottom-45 pad-top-60-m pad-bottom-60-m">
         <div class="container text-center pad-top-20-m pad-bottom-20-m pad-top-55-l pad-bottom-55-l">
             <!-- SUB HEADERS -->
@@ -48,10 +8,11 @@
             </h2>
 
         </div>
-    </div>
+    </div> <!--welcome section-->
+
     <div class="grey-row pad-top-60 pad-bottom-60">
     <div class="register-block pad-top-20 pad-bottom-20 container text-center">
-      <h2 id="confirm-h2" class="uppercase pad-bottom-10">Please confirm your profile information</h2>
+      <h2 id="confirm-h2" class="uppercase pad-bottom-10">Please tell us more about you</h2>
       <div class="col-10-m no-float-m col-8-l no-float-l center">
         <p class="fs-4">
           We want to make sure your information is the most up-to-date so you can find a friend faster
@@ -59,21 +20,21 @@
       </div>
       <div class="register-form col-10-l col-8-xl no-float center">
         <a class="event-speaker" href="#">
-            <img class="block" src="http://iv1.lisimg.com/image/1096151/378full-yuya-tegoshi.jpg">
+            <img class="block" src={{user.photoLink}}>
         </a>
         <form>
 	        <div class="confirm-form-list">Name
-				<input id="user-name" type="text" class="validate">
+						<input id="user-name" type="text" class="validate" value={{user.name}}>
 	        </div>
 
 	        <div class="confirm-form-list">Age
-	        	<input id="user-age" type="text" class="validate">
+	        	<input id="user-age" type="text" class="validate" value={{user.age}}>
 	        </div>
 	        <div class="confirm-form-list">Occupation
-				<input id="user-occu" type="text" class="validate">
+						<input id="user-occu" type="text" class="validate" value={{user.occupation}}>
 	        </div>
 	        <div class="confirm-form-list">Link to profile image
-				<input id="user-image" type="text" class="validate">
+						<input id="user-image" type="text" class="validate" value={{user.photoLink}}>
 	        </div>
 	        <div class="confirm-form-list"> Are you a vegetarian?
 	              <label for="veg" class="sr">Vegetarian?</label>
@@ -89,7 +50,7 @@
 	        	<label for="diet" class="sr">Different diet?</label>
 	              <span class="select center">
 	                <select name="diet" id="diet" class="center">
-	                  <option value=true>Yes</option>
+	                  <option value=true selected="selected">Yes</option>
 	                  <option value=yes>No</option>
 	                </select>
 	              </span>
@@ -97,24 +58,24 @@
 	        </div>
 	        <div class="confirm-form-list input-field">
 	        	Favorite food?
-	          	<input id="fav-food" type="text" class="validate">
+	          	<input id="fav-food" type="text" class="validate" value={{user.favFood}}>
 	        </div>
 	        <div class="confirm-form-list input-field">
 	        	Least favorite food?
-	          	<input id="least-food" type="text" class="validate">
+	          	<input id="least-food" type="text" class="validate" value={{user.leastFood}}>
 	        </div>
 	        <div class="confirm-form-list input-field">
 	        	Favorite drink?
-	          	<input id="fav-drink" type="text" class="validate">
+	          	<input id="fav-drink" type="text" class="validate" value={{user.favDrink}}>
 	        </div>
 	        <div class="confirm-form-list input-field">
 	        	Least favorite drink?
-	          	<input id="least-drink" type="text" class="validate">
+	          	<input id="least-drink" type="text" class="validate" value={{user.leastDrink}}>
 	        </div>
 	        <div class="confirm-form-list input-field">
 	        	On a scale of 1 to 5, do you consider yourself an introvert or extrovert?
 	          	<p>
-			      <input class="with-gap" name="in-ex" type="radio" id="proud-int"  />
+			      <input class="with-gap" name="in-ex" type="radio" id="proud-int" checked/>
 			      <label for="proud-int">Proud Introvert</label>
 			    </p>
 			    <p>
@@ -137,12 +98,12 @@
 	        </div>
 	        <div class="confirm-form-list input-field">
 	        	What do you like to do in your free time?
-	          	<input id="free-time" type="text" class="validate">
+	          	<input id="free-time" type="text" class="validate" value={{user.freeTime}}>
 	        </div>
 	        <div class="confirm-form-list input-field">
 	        	When dining with a woman, a man should pay.
 	          	<p>
-			      <input class="with-gap" name="pay" type="radio" id="pay-SA"  />
+			      <input class="with-gap" name="pay" type="radio" id="pay-SA" checked/>
 			      <label for="pay-SA">Strongly Agree</label>
 			    </p>
 			    <p>
@@ -164,7 +125,7 @@
 			    <br>
 	          	When together in a relationship, a woman should cook.
 	          	<p>
-			      <input class="with-gap" name="cook" type="radio" id="cook-SA"  />
+			      <input class="with-gap" name="cook" type="radio" id="cook-SA" checked />
 			      <label for="cook-SA">Strongly Agree</label>
 			    </p>
 			    <p>
@@ -188,11 +149,9 @@
 
 	        <div class="confirm-form-list">
 	        	I can eat with someone for <div class="input-field inline">
-            		<input id="min-avail" type="number" class="validate">
+            		<input id="min-avail" type="number" class="validate" value={{user.minAvail}}>
           			</div> minutes today.
 	        </div>
-
-
 
         </form>
 
@@ -200,8 +159,8 @@
         	<a class="button button-primary" id="submit"><span class="icon icon-right chevron-right">Continue</span></a>
              <a class="button" id="wrong-back-home">Cancel</a>
         </div>
-      </form>
     </div>
-  </div>
+  	</div>
+
 	<!-- Custom Script -->
 		<script src="../../public/js/confirm.js" type="text/javascript"></script>
