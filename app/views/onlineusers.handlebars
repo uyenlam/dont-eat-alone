@@ -1,0 +1,100 @@
+<!-- Sending request modal using Materialize Framework -->
+    <div id="modal1" class="modal modal-fixed-footer">
+        <div class="modal-content row">
+            <div class="col-3-l" id="selectPhoto">
+                <a class="event-speaker" href="#modal1">
+                    <img class="block" src="http://iv1.lisimg.com/image/1096151/378full-yuya-tegoshi.jpg">
+                </a>
+            </div>
+            <div class="col-8-l" id="selectInfo">
+                <h3 id="selectName" class="uppercase event-speaker-headline"> Tegoshi Yuya
+                <!-- Name of the clicked profile -->
+                </h3>
+                <h4 class="uppercase event-speaker-subheads">profile</h4>
+                <p id="selectOccupation" class="confirm-form-list">Idol and soccer player</p>
+                <p id="selectAge" class="confirm-form-list">29</p>
+                <p id="selectPrefer" class="confirm-form-list">Vegetarian</p>
+                <br>
+                <h4 class="uppercase event-speaker-subheads">send a request message</h4>
+                <form class="confirm-form-list no-float">
+
+
+                            <div class="input-field pad-top-10 pad-bottom-10 pad-top-0-m pad-bottom-0-m">
+                               <textarea rows="3" cols="20" class="materialize-textarea" data-length="140"></textarea>
+                            </div>
+
+
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="button modal-action modal-close" id="send-req-btn"><span class="icon icon-right chevron-right">Send a request</span></a>
+            <a class="button modal-action modal-close" href="#!">Cancel</a>
+        </div>
+    </div>
+
+<!-- populate user information -->
+<div id="layout" class="pure-g container" style="margin: 0px">
+	<div id="list" class="col-2-l pure-u-1">
+			<!-- user information card at top left of the page -->
+			{{#each user}}
+	        <div class="email-item email-item-selected pure-g">
+	            <div class="pure-u">
+	                <img width="64" height="64" class="email-avatar" src="{{this.imagelink}}">
+	            </div>
+
+	            <div class="pure-u-3-4">
+	                <h5 class="email-name">{{this.name}}</h5>
+	                <h4 class="email-subject">{{this.occupation}}</h4>
+	                <p class="email-desc">
+										Available for {{this.minAvail}} minutes today.
+	                </p>
+	            </div>
+	        </div>
+				{{/each}}
+				<!-- requests information -->
+				{{#each requester}}
+		        <div class="email-item pure-g">
+		            <div class="pure-u">
+		                <img width="64" height="64" class="email-avatar" src="{{this.imagelink}}">
+		            </div>
+		            <div class="pure-u-3-4">
+		                <h5 class="email-name">{{this.name}}</h5>
+		                <h4 class="email-subject">{{this.occupation}}</h4>
+		                <p class="email-desc">
+											{{this.text}}
+		                </p>
+		            </div>
+		        </div>
+					{{/each}}
+	</div>
+	<div id="main" class="col-9-l pure-u-1 banner">
+	    <!-- Other user profiles here  -->
+			<!-- Dynamically generate user profiles  -->
+	      <div class="speakers-block container" style="width:auto; z-index:0">
+	          <div class="text-center pad-top-20">
+	              <h2 class="h2 uppercase font-700">Great people at your location</h2>
+	              <p class="fs-4">
+	                  Click on each profile for more information
+	              </p>
+	          </div>
+						{{#each onlineusers}}
+						<ul class="event-speakers clear">
+	              <li class="col-6-m col-3-l">
+	                  <div class="col-12-m no-float">
+	                      <a class="event-speaker" href="#modal1">
+	                          <img class="block" src="{{this.photoLink}}">
+	                      </a>
+	                      <h3 class="uppercase fs-4 pad-top-20"><a class="event-speaker-name" href="#">{{this.name}}</a></h3>
+	                      <p>
+	                          {{this.occupation}}
+	                      </p>
+	                  </div>
+	              </li>
+	          </ul>
+						{{/each}}
+			</div>
+	</div>
+</div>
+	<!-- Custom Script -->
+	<script src="../../app/public/js/onlineusers.js" type="text/javascript"></script>
