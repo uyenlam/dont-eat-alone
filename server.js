@@ -86,4 +86,4 @@ app.listen(3000, function() {
   console.log("Listening on port 3000")
 });
 
-require("./app/controllers/controller.js");
+require("./app/controllers/controller.js")(app);
