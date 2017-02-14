@@ -44,6 +44,7 @@ module.exports = function(db) {
           // Working on how to make request associate with multiple users (TY)
           Request.belongsTo(models.User, {
             foreignKey: {
+              name: 'user_id', //assign a name to the foreignKey
               allowNull: false
             }
           });

@@ -45,7 +45,7 @@
               </div>
               <div class="col-8-l" id="requestInfo">
                   <h3 id="newRequest" class="uppercase event-speaker-headline">
-                  You have a new request from
+
                   </h3>
                   <h3 id="requestName" class="uppercase event-speaker-headline">
                   <!-- Name of the request profile -->
@@ -71,14 +71,16 @@
               </div>
           </div>
           <div class="modal-footer">
-              <a class="button modal-action modal-close" id="send-req-btn"><span class="icon icon-right chevron-right">Send a request</span></a>
-              <a class="button modal-action modal-close" id="cancel-modal-btn" href="#!">Cancel</a>
+              <a class="button modal-action modal-close" id="accept-req-btn"><span class="icon icon-right chevron-right">Accept</span></a>
+              <a class="button modal-action modal-close" id="cancel-req-btn">Decline</a>
+              <a class="button modal-action modal-close" id="cancel-box-btn" href="#!">Cancel</a>
           </div>
       </div>
 
 <!-- populate user information -->
 <div id="layout" class="pure-g container" style="margin: 0px">
 	<div id="list" class="col-2-l pure-u-1">
+      <div id="profile-card">
 			<!-- user information card at top left of the page -->
 			{{#each user}}
 
@@ -100,26 +102,30 @@
 	        </div>
 
 				{{/each}}
+        </div>
 				<!-- requests information -->
-				{{#each request}}
-
-		        <div class="email-item pure-g" id="{{request.id}}">
+        <div id="request-card">
+				{{#each user}}
+          {{#each allRequests}}
+		        <div class="email-item pure-g request-choice" id="{{unbound this.id}}" href="#modal6">
+              <!-- id of the sender of the request -->
 		            <div class="pure-u">
 
                     <!-- unbound is possible using ember.js handlerbars helper -->
-		                <img width="64" height="64" class="email-avatar" src="{{unbound this.photolink}}">
+		                <img width="64" height="64" class="email-avatar" src="{{unbound ../photolink}}">
 
                 </div>
 		            <div class="pure-u-3-4">
-		                <h5 class="email-name">{{this.name}}</h5>
-		                <h4 class="email-subject">{{this.occupation}}</h4>
+		                <h5 class="email-name">{{../name}}</h5>
+		                <h4 class="email-subject">{{../occupation}}</h4>
 		                <p class="email-desc">
 											{{this.text}}
 		                </p>
 		            </div>
 		        </div>
-
+          {{/each}}
 				{{/each}}
+      </div>
 	</div>
 	<div id="main" class="col-9-l pure-u-1 banner">
 	    <!-- Other user profiles here  -->

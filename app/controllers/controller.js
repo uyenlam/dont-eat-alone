@@ -53,7 +53,9 @@ module.exports = function(app) {
           include:[
             {
               model: db.Request,
-              as: 'allRequests'
+              as: 'allRequests',
+              //all requests that have been SENT by the user
+              //tied to the foreign_key that is the user's id
             }
           ]
         }).then(function(user){
@@ -61,13 +63,13 @@ module.exports = function(app) {
             // find all online users
             where: {
                 // who has the same locationName as the logged-in user's
-                locationName: user.locationName
+                locationName: user.locationName,
                 // who is online - this is set to false when the user signs out
                 online: true,
             },
             limit: 6,
           }).then(function(onlineusers){
-            res.render("onlineusers",{user: user, request: user.allRequests, onlineusers: onlineusers})
+            res.render("onlineusers",{user: user, onlineusers: onlineusers})
           })
         })
     });
@@ -186,7 +188,7 @@ module.exports = function(app) {
                 username: req.user.username
             }
         }).then(function(result) {
-            return res.json(result);
+            res.json(result);
         });;
 
         // Uyen: I'm not sure what's the purpose of the following function?
@@ -206,11 +208,18 @@ module.exports = function(app) {
 
 
     // Get user info based on id
-    app.get("/api/:userid", function(req, res) {
+    app.get("/api/user/:userid", function(req, res) {
         db.User.findOne({
             where: {
                 id: req.params.userid
-            }
+            },
+
+            include:[
+                {
+                  model: db.Request,
+                  as: 'allRequests',
+                }
+              ]
         }).then(function(result) {
             res.json(result);
         })
@@ -227,11 +236,27 @@ module.exports = function(app) {
                 id: req.params.user
             }
         }).then(function(result) {
-            return res.json(result);
+            res.json(result);
             // redirect?
         });
     });
 
+    // get current logged-in user information
+    app.get("/api/currentuser", function(req,res){
+        db.User.findOne({
+          where:{
+            username: req.user.username //Passport JS call
+          },
+          include: [
+            {
+              model: db.Request,
+              as: 'allRequests',
+            }
+          ]
+        }).then(function(res2){
+          res.json(res2);
+        });
+    });
 
     // Update user location
     app.get("/api/:user/location", function(req, res) {
@@ -242,21 +267,75 @@ module.exports = function(app) {
                 id: req.params.user
             }
         }).then(function(result) {
-            return res.json(result);
+            res.json(result);
             // redirect?
         });
     });
 
 
 
-    // Get all request sent to or by user
-    app.get("/api/:user/findrequests", function(req, res) {
+    // Get all requests sent to user
+    app.get("/api/:userId/requeststo", function(req, res) {
         db.Request.findAll({
             where: {
-                $or: [{ sender: req.params.user }, { recipient: req.params.user }] // I think this is correct syntax for "or" in query
+                recipient: req.params.userId
             }
         }).then(function(result) {
-            return res.json(result);
+            res.json(result);
+        })
+    });
+
+    // Get one request sent to user
+    app.get("/api/:userId/requeststo/one", function(req, res) {
+        db.Request.findOne({
+            where: {
+                recipient: req.params.userId
+            },
+            order:[
+              [
+                'createdAt','DESC' //find the latest value
+              ]
+            ]
+        }).then(function(result) {
+            res.json(result);
+        })
+    });
+
+    // Get all requests sent by user
+    app.get("/api/:userId/requestsby", function(req, res) {
+        db.Request.findAll({
+            where: {
+                user_id: req.params.userId //looking for the foreign key user_id
+            }
+        }).then(function(result) {
+            res.json(result);
+        })
+    });
+
+    // Get one request sent by user
+    app.get("/api/:userId/requestsby/one", function(req, res) {
+        db.Request.findOne({
+            where: {
+                user_id: req.params.userId //looking for the foreign key user_id
+            },
+            order:[
+              [
+                'createdAt','DESC' //find the latest value
+              ]
+            ]
+        }).then(function(result) {
+            res.json(result);
+        })
+    });
+
+    // Get request information by request id
+    app.get("/api/request/:requestId", function(req, res) {
+        db.Request.findOne({
+            where: {
+                id: req.params.requestId
+            },
+        }).then(function(result) {
+            res.json(result);
         })
     });
 
@@ -266,7 +345,7 @@ module.exports = function(app) {
     app.post("/api/:userId/newrequest", function(req, res) {
         db.Request.create({
             recipient: req.params.userId,
-            // sender: req.user, the sender is already identified by the foreign key
+            // sender: req.user, the sender is already identified by the foreign key named user_id
             text: req.body.message
         }).then(function(dbRequest){
           res.json(dbRequest);

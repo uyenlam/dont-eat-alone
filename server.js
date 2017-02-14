@@ -32,6 +32,10 @@ var LocalStrategy = require('passport-local').Strategy;
 var db = require('./app/config/db');
 var User = require("./app/models/user")(db);
 
+//Dependencies for socket.io - real time updates
+// =============================================================
+var io = require('socket.io')(app);
+
 // Passing information to each variable
 // =============================================================
 app.use(methodOverride("_method"));
@@ -80,6 +84,17 @@ passport.deserializeUser(function(id, cb) {
   });
 });
 
+// socket.io
+io.on('connection', function (socket) {
+  // send message
+  socket.on('send message', function (data) {
+    io.emit('new message', {msg: data});
+  });
+  //disconnect
+  socket.on('disconnect', function (data) {
+    io.emit('user disconnected');
+  });
+});
 
 // Notif for successful server connection
 app.listen(3000, function() {
