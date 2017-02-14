@@ -1,5 +1,5 @@
-<!-- Sending request modal using Materialize Framework -->
-    <div id="modal1" class="modal modal-fixed-footer">
+<!-- Sending request modal using Materialize Framework. Information here is populated by JavaScript -->
+    <div id="modal5" class="modal modal-fixed-footer">
         <div class="modal-content row">
             <div class="col-3-l event-speaker" id="selectPhoto">
             </div>
@@ -37,6 +37,44 @@
             <a class="button modal-action modal-close" id="cancel-modal-btn" href="#!">Cancel</a>
         </div>
     </div>
+
+  <!-- Received request modal using Materialize Framework -->
+      <div id="modal6" class="modal modal-fixed-footer">
+          <div class="modal-content row">
+              <div class="col-3-l event-speaker" id="requestPhoto">
+              </div>
+              <div class="col-8-l" id="requestInfo">
+                  <h3 id="newRequest" class="uppercase event-speaker-headline">
+                  You have a new request from
+                  </h3>
+                  <h3 id="requestName" class="uppercase event-speaker-headline">
+                  <!-- Name of the request profile -->
+                  </h3>
+                  <h4 class="uppercase event-speaker-subheads">message</h4>
+                  <p id="requestMessage" class="confirm-form-list"></p>
+                  <br>
+                  <h4 class="uppercase event-speaker-subheads">profile</h4>
+                  <p id="requestOccupation" class="confirm-form-list"></p>
+                  <p id="requestAge" class="confirm-form-list"></p>
+                  <p id="requestVege" class="confirm-form-list"></p>
+                  <p id="requestDiet" class="confirm-form-list"></p>
+                  <p id="requestFavfood" class="confirm-form-list"></p>
+                  <p id="requestLeastfood" class="confirm-form-list"></p>
+                  <p id="requestFavdrink" class="confirm-form-list"></p>
+                  <p id="requestLeastdrink" class="confirm-form-list"></p>
+                  <p id="requestInEx" class="confirm-form-list"></p>
+                  <p id="requestFree" class="confirm-form-list"></p>
+                  <p id="requestPay" class="confirm-form-list"></p>
+                  <p id="requestCook" class="confirm-form-list"></p>
+                  <p id="requestMin" class="confirm-form-list"></p>
+
+              </div>
+          </div>
+          <div class="modal-footer">
+              <a class="button modal-action modal-close" id="send-req-btn"><span class="icon icon-right chevron-right">Send a request</span></a>
+              <a class="button modal-action modal-close" id="cancel-modal-btn" href="#!">Cancel</a>
+          </div>
+      </div>
 
 <!-- populate user information -->
 <div id="layout" class="pure-g container" style="margin: 0px">
@@ -99,7 +137,7 @@
   						<ul class="event-speakers clear friend-choice" id="{{unbound onlineusers.id}}">
   	              <li class="col-6-m col-3-l">
   	                  <div class="col-12-m no-float">
-  	                      <a class="event-speaker" href="#modal1">
+  	                      <a class="event-speaker" href="#modal5">
                               <!-- unbound is possible using ember.js handlerbars helper -->
   	                          <img class="block" src="{{unbound this.photoLink}}">
   	                      </a>

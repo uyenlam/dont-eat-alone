@@ -34,7 +34,8 @@ var cookRes = {
 $(document).ready(function(){
       var chosenId = [];
 
-     $('#modal1').modal();
+     $('#modal5').modal();
+     $('#modal6').modal();
      // when the user clicks on an online user profile to view more information
      $('.friend-choice').click(function(){
        chosenId = this.id;
@@ -86,12 +87,12 @@ $(document).ready(function(){
            $('#selectMin').append('I can eat for ' + res.minAvail + 'minutes today.');
          });
      });
-
+     // send request
      $('#send-req-btn').click(function(){
        function sendReq(){
          var request = {
-           userId: chosenId,
-           message:$('#request-message').val(),
+           'userId': chosenId,
+           'message':$('#request-message').val(),
          }; //var request
 
          var reqQuery = "/api/" + request.userId + "/newrequest";
@@ -101,6 +102,7 @@ $(document).ready(function(){
              method: "POST"
            }).done(function(res){
              console.log('Request successfully sent');
+
           }); //done function
        }; //sendReq function
 
