@@ -2,13 +2,18 @@ var Sequelize = require("sequelize");
 
 module.exports = function(db) {
   return db.define("Request", {
-    sender: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        len: [1]
-      }
-    },
+    // the sender is identified by the foreign key associated with the user model
+    // sender: {
+    //   type: DataTypes.STRING,
+    //   allowNull: false,
+    //   validate: {
+    //     len: [1]
+    //   }
+    // },
+    // =============================================
+    // we identify the sender by the foreignKey id
+    // we identify the recipient by the id listed in recipient
+    // =============================================
     recipient: {
       type: DataTypes.STRING,
       allowNull: false,

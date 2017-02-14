@@ -43,44 +43,68 @@ module.exports = function(app) {
         res.render("findpeople");
     });
 
-    // Make sure the user is signed in first, then find the 6 closest online users for the friendsdata.handlebars
+    // Make sure the user is signed in first, then find the online users for the onlineusers.handlebars
     app.get("/onlineusers", require('connect-ensure-login').ensureLoggedIn(), function(req1, res) {
 
-        db.User.findAll({
-                // find all online users
-                where: {
-                    online: true
-                },
-                limit: 6,
-                order: [
-                        [sequelize.col("location"), "DESC"]
-                    ] // This will be the sort to who is closer (don't know how to do yet)
-              }).then(function(result1) {
-                  // find information of the current logged in user
-                  db.User.findOne({
-                    where:{
-                      username: req.user.username
-                    }
-                  }).then(function(result2) {
-                      // find all received and sent requests
-                      db.Request.findAll({
-                        where: {
-                            // find in the Request model where it matches the logged-in user's id, found in result2
-                            $or: [{ sender: result2.id }, { recipient: result2.id }] // I think this is correct syntax for "or" in query
-                        }
-                    }).then(function(result3){
-                      // pass results into variables that work with handlebars
-                      res.render("onlineusers", { onlineusers: result1, user: result2, requester: result3 });
-                    });
-                });
-              });
+        db.User.findOne({
+          where: {
+            username: req.user.username
+          },
+          include:[
+            {
+              model: db.Request,
+              as: 'allRequests'
+            }
+          ]
+        }).then(function(user){
+          db.User.findAll({
+            // find all online users
+            where: {
+                // who has the same locationName as the logged-in user's
+                locationName: user.locationName
+                // who is online - this is set to false when the user signs out
+                online: true,
+            },
+            limit: 6,
+          }).then(function(onlineusers){
+            res.render("onlineusers",{user: user, request: user.allRequests, onlineusers: onlineusers})
+          })
+        })
     });
 
-    // app.get('/profile',
-    //     require('connect-ensure-login').ensureLoggedIn(),
-    //     function(req, res) {
-    //         res.render('profileplaceholder', { user: req.user });
-    //     });
+
+    //     db.User.findOne({
+    //             // find information of the current logged in user
+    //             where:{
+    //               // where the username matches the current session's username
+    //               username: req.user.username
+    //             }
+    //           }).then(function(result1) { //result1 = information of the logged in user
+    //               db.User.findAll({
+    //                 // find all online users
+    //                 where: {
+    //                     // who has the same locationName as the logged-in user's
+    //                     locationName: result1.locationName
+    //                     // who is online - this is set to false when the user signs out
+    //                     online: true,
+    //                 },
+    //                 limit: 6,
+    //               }).then(function(result2) { //result2 = all users who are online
+    //                   // find all received and sent requests by the logged in user
+    //                     db.Request.findAll({
+    //                       where: {
+    //                           // find in the Request model where it matches the logged-in user's id, found in result1
+    //                           $or: [{ id: result1.id }, { recipient: result1.id }]
+    //                       }
+    //                     }).then(function(result3){ // result3 = an array of requests sent and received by the logged in user
+    //                       // pass results into variables that work with handlebars
+    //                       res.render("onlineusers", { user: result1, onlineusers: result2, request: result3 });
+    //                     });
+    //                 });
+    //             });
+    //           });
+    // });
+
 
 
     // API ROUTES==============================================
@@ -188,7 +212,7 @@ module.exports = function(app) {
                 id: req.params.userid
             }
         }).then(function(result) {
-            return res.json(result);
+            res.json(result);
         })
     });
 
@@ -239,26 +263,27 @@ module.exports = function(app) {
 
 
     // Create new request to another user
-    app.post("/api/:user/newrequest", function(req, res) {
+    app.post("/api/:userId/newrequest", function(req, res) {
         db.Request.create({
-            recipient: req.params.user,
-            sender: req.user,
-            text: req.body.text
-                // etc.
+            recipient: req.params.userId,
+            // sender: req.user, the sender is already identified by the foreign key
+            text: req.body.message
+        }).then(function(dbRequest){
+          res.json(dbRequest);
         })
     });
 
     // Respond to request
-    app.put("/api/respond/:request/:status", function(req, res) {
+    app.put("/api/respond/:requestId/:status", function(req, res) {
         db.Request.update({
             // Likely accepted/declined
             status: req.params.status
         }, {
             where: {
-                request: req.params.request
+                id: req.params.requestId
             }
         }).then(function(result) {
-            return res.json(result);
+            res.json(result);
             // We will need to figure out how to add a listener to notify other user of change
         });
     });
